@@ -1,19 +1,23 @@
 
 
 <template>
-  <div id="Header">
-    <MyHeader />
-  </div>
-
+  <div>
+    <div>
+      <MyHeader />
+    </div>
+    <router-view> </router-view>
+</div>
 </template>
 
 <script>
 import MyHeader from './components/header.vue'
+import Home from './components/home.vue'
 
 export default {
-  name: 'Header',
+  name: 'App',
   components: {
-    MyHeader
+    MyHeader,
+    Home
   }
 }
 </script>
