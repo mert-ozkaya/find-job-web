@@ -55,7 +55,8 @@
 import router from "../router"
 import { bus } from '../main'
 var mytoken = localStorage.getItem("token")
-var isAuth = false
+
+  var isAuth = false
   if(mytoken != null) {
     isAuth = true
   }
