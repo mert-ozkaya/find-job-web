@@ -1,8 +1,8 @@
 <template>
   <div>
-  <div style="background-color: #1ACFAB;">
+  <div style="background-color: #1ACFAB;" id="header">
       <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #1ACFAB;">
-          <a class="navbar-brand">WOR</a>
+          <a class="navbar-brand"><router-link to="/"> WOR</router-link></a>
           <button class="navbar-toggler" style="background-color: #fafbf5;" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
           </button>
@@ -18,10 +18,13 @@
                       <a class="nav-link">Challendes</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link"><router-link to="source-compile">Online Compiler</router-link></a>
+                      <a class="nav-link"><router-link to="/source-compile">Online Compiler</router-link></a>
                   </li>
               </ul>
               <ul class="navbar-nav">
+                <li v-if="isAuth" class="nav-item">
+                    <a class="nav-link"><router-link to="/new-project">Proje Oluştur</router-link></a>
+                </li>
                   <li v-if="isAuth" class="nav-item dropdown" >
                       <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Hesabım
@@ -29,8 +32,10 @@
                       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                           <a class="dropdown-item">Genel Bilgilerim</a>
                           <a class="dropdown-item">İş Başvurularım</a>
-                          <a class="dropdown-item" v-on:click="logout"> Çıkış </a>
                       </div>
+                  </li>
+                  <li v-if="isAuth" class="nav-item">
+                      <a class="nav-link" v-on:click="logout" >Çıkış</a>
                   </li>
 
                   <li v-if="!isAuth" class="nav-item">
@@ -42,9 +47,7 @@
               </ul>
           </div>
       </nav>
-
   </div>
-<router-view />
 </div>
 </template>
 
@@ -67,8 +70,8 @@ export default {
   methods: {
     logout: function() {
       localStorage.clear();
-      bus.$emit('Header', 'asdasdasdsad')
-      router.push('/source-compile');
+      this.forceUpdate()
+      router.push({ name: 'home' }, () => {});
 
     }
   }
@@ -85,6 +88,23 @@ export default {
 .active {
  background-color: #FFC300;
  color:white;
+}
+
+.navbar-brand a {
+  color: #FFC300;
+  font-size: 20pt;
+  font-weight: bold;
+}
+
+a {
+    cursor:pointer;
+    color:white;
+    text-decoration: none;
+}
+
+a:hover {
+  color:black;
+  text-decoration:none;
 }
 .navbar-light .navbar-brand {
  color: white;
