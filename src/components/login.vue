@@ -15,7 +15,6 @@
           <button type="submit" class="btn btn-primary">Login</button>
         </form>
     </div>
-    {{ output }}
   </div>
 </template>
 
@@ -26,6 +25,7 @@
 import axios from 'axios'
 import router from "../router"
 import { bus } from '../main'
+import header from './header'
 export default {
   name: 'Login',
   data(){
@@ -50,8 +50,7 @@ export default {
                  var mytoken = localStorage.getItem("token");
                  //console.log(JSON.stringify(mytoken));
                   //console.log(response.data);
-                  bus.$emit('Header', 'changeddd')
-                  router.push({ name: 'source-compile' });
+                  router.push({ name: 'home' });
                })
                .catch(function (error) {
                    console.log("error", error)
