@@ -39,7 +39,6 @@
 <script>
 import axios from 'axios'
 
-var x
 export default {
   name: 'JobAds',
   data() {
@@ -47,9 +46,6 @@ export default {
             ads: []
         }
     },
-  methods: {
-
-  },
   created() {
     var self = this;
     let url = "http://localhost:3000/job-ad/list"
