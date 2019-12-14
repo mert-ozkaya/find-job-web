@@ -88,8 +88,18 @@
           </div>
         </div>
 
-          <button type="submit" class="btn btn-primary">Oluştur</button>
+          <button type="submit" class="btn btn-primary">Oluştur
+            <span v-if="status != 0" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            {{status}}
+          </button>
         </form>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
     </div>
   </div>
 </template>
@@ -98,6 +108,7 @@
 <script>
 import axios from 'axios'
 import router from "../router"
+
 
 export default {
   name: 'NewProject',
@@ -110,30 +121,36 @@ export default {
       project_document: null,
       input_file: null,
       output_file: null,
-      languages: []
+      languages: [],
+      status:0
     }
   },
   methods: {
     newProject(e) {
-      //e.preventDefault();
-               axios.post('http://localhost:3000/job-project-new', {
-                   title: this.title,
-                   description: this.description,
-                   starting_date: this.starting_date,
-                   due_date: this.due_date,
-                   project_document: this.project_document,
-                   input_file: this.input_file,
-                   output_file: this.output_file,
-                   languages: this.languages
+      this.status = 1
+      let formData = new FormData();
+      formData.append('title',this.title)
+      formData.append('description',this.description)
+      formData.append('starting_date',this.starting_date)
+      formData.append('project_doc',this.project_document)
+      formData.append('due_date',this.due_date)
+      formData.append('sample_input',this.input_file)
+      formData.append('sample_output',this.output_file)
+      formData.append('languages',this.languages)
 
-               })
-               .then(function (response) {
-                  console.log(response.data)
-               })
-               .catch(function (error) {
-                   console.log("error", error)
+      var mytoken = localStorage.getItem("token");
 
-               });
+       axios.post('http://localhost:3000/job-project/new',formData,{
+         headers:{
+           'Content-Type': 'multipart/form-data',
+           'Authorization': mytoken
+         }
+       }).then(function (response) {
+          router.push({ name: 'newProject' }, () => {});
+       }).catch(function (error) {
+           console.log("error", error)
+           router.push({ name: 'newProject' }, () => {});
+       });
     },
     projectDoc(event) {
       console.log('degistii1')
@@ -148,6 +165,13 @@ export default {
       this.output_file = event.target.files[0]
     }
 
+  },
+  computed: {
+    sendStatus(deger) {
+      console.log("calisti")
+      this.status = deger
+      return this.status
+    }
   }
 }
 </script>
